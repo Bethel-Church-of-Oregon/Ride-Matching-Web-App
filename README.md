@@ -4,15 +4,26 @@ A TypeScript web application for ride matching, built with Vite.
 
 ## 📋 Table of Contents
 
-- [Features](#-features)
-- [Prerequisites](#-prerequisites)
-- [Quick Start](#-quick-start)
-- [Development](#-development)
-- [Project Structure](#-project-structure)
-- [Scripts](#-scripts)
-- [Technology Stack](#-technology-stack)
-- [Troubleshooting](#-troubleshooting)
-- [License](#-license)
+- [Ride-Matching-Web-App](#ride-matching-web-app)
+  - [📋 Table of Contents](#-table-of-contents)
+  - [✨ Features](#-features)
+  - [📦 Prerequisites](#-prerequisites)
+  - [🚀 Quick Start](#-quick-start)
+  - [🛠️ Development](#️-development)
+    - [Local Development Setup](#local-development-setup)
+    - [Development Features](#development-features)
+  - [📁 Project Structure](#-project-structure)
+  - [📝 Scripts](#-scripts)
+  - [🛠️ Technology Stack](#️-technology-stack)
+    - [Key Dependencies](#key-dependencies)
+  - [🔧 Troubleshooting](#-troubleshooting)
+    - [TypeScript Errors](#typescript-errors)
+    - [Port Already in Use](#port-already-in-use)
+    - [Module Not Found](#module-not-found)
+    - [Node Version Issues](#node-version-issues)
+  - [📄 License](#-license)
+  - [🤝 Contributing](#-contributing)
+  - [📞 Support](#-support)
 
 ## ✨ Features
 

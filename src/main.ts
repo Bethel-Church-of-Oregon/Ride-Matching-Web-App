@@ -1,39 +1,35 @@
 import './style.css';
-
-// Example TypeScript code
-export interface User {
-  id: number;
-  name: string;
-  email: string;
-}
+import { UserMode } from './types';
+import { ModeSelection } from './mode-selection';
+import { PassengerMode } from './passenger-mode';
+import { DriverMode } from './driver-mode';
 
 class RideMatchingApp {
+  private modeSelection: ModeSelection;
+  private passengerMode: PassengerMode;
+  private driverMode: DriverMode;
+
   constructor() {
+    this.passengerMode = new PassengerMode(() => this.showModeSelection());
+    this.driverMode = new DriverMode(() => this.showModeSelection());
+    this.modeSelection = new ModeSelection((mode) => this.selectMode(mode));
     this.initializeApp();
   }
 
   private initializeApp(): void {
-    const app = document.querySelector<HTMLDivElement>('#app')!;
-    
-    app.innerHTML = `
-      <div class="container">
-        <h1>🚗 Ride Matching Web App</h1>
-        <p>Welcome to your TypeScript-powered ride matching application!</p>
-        <button id="demo-btn">Click me!</button>
-        <div id="output"></div>
-      </div>
-    `;
-
-    // Add event listener with proper TypeScript typing
-    const button = document.querySelector<HTMLButtonElement>('#demo-btn')!;
-    button.addEventListener('click', () => this.handleButtonClick());
+    this.showModeSelection();
   }
 
-  private handleButtonClick(): void {
-    const output = document.querySelector<HTMLDivElement>('#output')!;
-    const message = `Button clicked at ${new Date().toLocaleTimeString()}`;
-    output.innerHTML = `<p class="message">${message}</p>`;
-    console.log('Button clicked!', message);
+  private showModeSelection(): void {
+    this.modeSelection.render();
+  }
+
+  private selectMode(mode: UserMode): void {
+    if (mode === 'passenger') {
+      this.passengerMode.render();
+    } else if (mode === 'driver') {
+      this.driverMode.render();
+    }
   }
 }
 
