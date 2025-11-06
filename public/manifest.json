@@ -1,0 +1,43 @@
+{
+  "name": "Ride Matching App",
+  "short_name": "RideMatch",
+  "description": "A ride matching application for connecting drivers and passengers",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#242424",
+  "theme_color": "#646cff",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["travel", "transportation"],
+  "screenshots": [],
+  "shortcuts": [
+    {
+      "name": "Find a Ride",
+      "short_name": "Passenger",
+      "description": "Search for available rides",
+      "url": "/?mode=passenger",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Offer a Ride",
+      "short_name": "Driver",
+      "description": "Post a ride offer",
+      "url": "/?mode=driver",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
+    }
+  ]
+}
+

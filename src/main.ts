@@ -14,6 +14,7 @@ class RideMatchingApp {
     this.driverMode = new DriverMode(() => this.showModeSelection());
     this.modeSelection = new ModeSelection((mode) => this.selectMode(mode));
     this.initializeApp();
+    this.registerServiceWorker();
   }
 
   private initializeApp(): void {
@@ -29,6 +30,36 @@ class RideMatchingApp {
       this.passengerMode.render();
     } else if (mode === 'driver') {
       this.driverMode.render();
+    }
+  }
+
+  private async registerServiceWorker(): Promise<void> {
+    if ('serviceWorker' in navigator) {
+      try {
+        const registration = await navigator.serviceWorker.register('/sw.js', {
+          scope: '/'
+        });
+        
+        console.log('[Service Worker] Registered successfully:', registration.scope);
+
+        // Check for updates
+        registration.addEventListener('updatefound', () => {
+          const newWorker = registration.installing;
+          if (newWorker) {
+            newWorker.addEventListener('statechange', () => {
+              if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                // New service worker available, prompt user to reload
+                console.log('[Service Worker] New version available');
+                if (confirm('A new version is available. Reload to update?')) {
+                  window.location.reload();
+                }
+              }
+            });
+          }
+        });
+      } catch (error) {
+        console.error('[Service Worker] Registration failed:', error);
+      }
     }
   }
 }

@@ -310,14 +310,31 @@ button:focus-visible {
     font-size: 2.5em;
   }
 
+  h2 {
+    font-size: 1.5em;
+  }
+
+  .subtitle {
+    font-size: 1em;
+    margin: 0.5rem 0 1.5rem;
+  }
+
   .mode-selection {
     flex-direction: column;
     align-items: center;
+    gap: 1rem;
+    margin-top: 2rem;
   }
 
   .mode-btn {
     width: 100%;
     max-width: 100%;
+    padding: 1.5rem;
+    min-width: unset;
+  }
+
+  .mode-icon {
+    font-size: 3em;
   }
 
   .container {
@@ -327,4 +344,75 @@ button:focus-visible {
   #app {
     padding: 1rem;
   }
+
+  .passenger-form,
+  .driver-form {
+    margin: 1.5rem auto;
+  }
+
+  .form-group {
+    margin-bottom: 1.2rem;
+  }
+
+  .primary-btn {
+    padding: 1em;
+    font-size: 1em;
+  }
+
+  .header-actions {
+    margin-bottom: 0.5rem;
+  }
+
+  .back-btn {
+    padding: 0.6em 1em;
+    font-size: 0.85em;
+  }
+}
+
+@media (max-width: 480px) {
+  h1 {
+    font-size: 2em;
+  }
+
+  .mode-btn {
+    padding: 1.2rem;
+  }
+
+  .mode-icon {
+    font-size: 2.5em;
+  }
+
+  .mode-content h2 {
+    font-size: 1.2em;
+  }
+
+  .mode-content p {
+    font-size: 0.9em;
+  }
+
+  #app {
+    padding: 0.5rem;
+  }
+
+  .container {
+    padding: 0.75rem;
+  }
+}
+
+/* PWA specific styles */
+@media (display-mode: standalone) {
+  body {
+    /* Add padding for status bar on mobile */
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
+
+/* Prevent iOS bounce scrolling */
+html {
+  overscroll-behavior: none;
+}
+
+body {
+  -webkit-overflow-scrolling: touch;
 }
