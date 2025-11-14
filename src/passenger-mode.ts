@@ -21,26 +21,31 @@ export class PassengerMode {
         
         <div class="passenger-form">
           <div class="form-group">
-            <label for="pickup-location">Pickup Location</label>
-            <input type="text" id="pickup-location" placeholder="Enter pickup address" />
+            <label for="passenger-name">Name</label>
+            <input type="text" id="passenger-name" placeholder="Enter your name" required />
           </div>
           
           <div class="form-group">
-            <label for="destination">Destination</label>
-            <input type="text" id="destination" placeholder="Enter destination address" />
+            <label for="passenger-phone">Phone</label>
+            <input type="tel" id="passenger-phone" placeholder="000-000-0000" required />
           </div>
           
           <div class="form-group">
-            <label for="passenger-count">Number of Passengers</label>
-            <input type="number" id="passenger-count" min="1" max="8" value="1" />
+            <label for="passenger-email">Email</label>
+            <input type="email" id="passenger-email" placeholder="example@email.com" required />
           </div>
           
           <div class="form-group">
-            <label for="preferred-time">Preferred Time</label>
-            <input type="datetime-local" id="preferred-time" />
+            <label for="passenger-address">Home address</label>
+            <input type="text" id="passenger-address" placeholder="Enter your home address" required />
           </div>
           
-          <button class="primary-btn" id="search-rides-btn">Search Available Rides</button>
+          <div class="form-group">
+            <label for="passenger-count">Number of passengers needed</label>
+            <input type="number" id="passenger-count" min="1" max="8" value="1" required />
+          </div>
+          
+          <button class="primary-btn" id="register-passenger-btn">Register Passenger</button>
         </div>
         
         <div id="rides-results" class="results-container"></div>
@@ -51,30 +56,34 @@ export class PassengerMode {
     const backBtn = document.querySelector<HTMLButtonElement>('#back-btn')!;
     backBtn.addEventListener('click', () => this.onBack());
 
-    // Add search button handler
-    const searchBtn = document.querySelector<HTMLButtonElement>('#search-rides-btn')!;
-    searchBtn.addEventListener('click', () => this.searchRides());
+    // Add register button handler
+    const registerBtn = document.querySelector<HTMLButtonElement>('#register-passenger-btn')!;
+    registerBtn.addEventListener('click', () => this.registerPassenger());
   }
 
-  private searchRides(): void {
-    const pickup = (document.querySelector<HTMLInputElement>('#pickup-location')?.value || '').trim();
-    const destination = (document.querySelector<HTMLInputElement>('#destination')?.value || '').trim();
+  private registerPassenger(): void {
+    const name = (document.querySelector<HTMLInputElement>('#passenger-name')?.value || '').trim();
+    const phone = (document.querySelector<HTMLInputElement>('#passenger-phone')?.value || '').trim();
+    const email = (document.querySelector<HTMLInputElement>('#passenger-email')?.value || '').trim();
+    const address = (document.querySelector<HTMLInputElement>('#passenger-address')?.value || '').trim();
     const passengerCount = parseInt(document.querySelector<HTMLInputElement>('#passenger-count')?.value || '1');
-    const preferredTime = document.querySelector<HTMLInputElement>('#preferred-time')?.value;
 
-    if (!pickup || !destination) {
-      showMessage('Please fill in all required fields', 'error');
+    if (!name || !phone || !email || !address) {
+      showMessage('Please fill in all fields', 'error');
       return;
     }
 
     const results = document.querySelector<HTMLDivElement>('#rides-results')!;
     results.innerHTML = `
       <div class="success-message">
-        <p>🔍 Searching for rides...</p>
-        <p class="search-info">From: <strong>${pickup}</strong></p>
-        <p class="search-info">To: <strong>${destination}</strong></p>
-        <p class="search-info">Passengers: <strong>${passengerCount}</strong></p>
-        ${preferredTime ? `<p class="search-info">Time: <strong>${new Date(preferredTime).toLocaleString()}</strong></p>` : ''}
+        <p>✅ Passenger information has been registered!</p>
+        <div class="ride-details">
+          <p><strong>Name:</strong> ${name}</p>
+          <p><strong>Phone:</strong> ${phone}</p>
+          <p><strong>Email:</strong> ${email}</p>
+          <p><strong>Home Address:</strong> ${address}</p>
+          <p><strong>Passengers needed:</strong> ${passengerCount} passengers</p>
+        </div>
       </div>
     `;
   }

@@ -6,6 +6,7 @@
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
   background-color: #242424;
+  --label-color: rgba(255, 255, 255, 0.87);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -161,6 +162,7 @@ h2 {
   margin-bottom: 0.5rem;
   font-weight: 500;
   font-size: 1em;
+  color: var(--label-color);
 }
 
 .form-group input,
@@ -196,6 +198,86 @@ h2 {
 .login-footer {
   margin-top: 1rem;
   color: rgba(255,255,255,0.8);
+}
+
+.signup-btn {
+  border: none;
+  background: transparent;
+  color: #646cff;
+  cursor: pointer;
+  padding: 0;
+  font-weight: 600;
+  font-family: inherit;
+}
+
+/* Unified link-style button used for signup / forgot password */
+.link-btn {
+  border: none;
+  background: transparent;
+  color: #646cff;
+  cursor: pointer;
+  padding: 0.25rem 0.5rem;
+  font-weight: 600;
+  font-family: inherit;
+  text-decoration: underline;
+  border-radius: 6px;
+  font-size: 1em;
+  line-height: 1.2;
+  vertical-align: middle;
+}
+
+.link-btn:hover {
+  background-color: rgba(100,108,255,0.08);
+}
+
+/* Actions row inside login footer to align signup and forgot password */
+.login-footer .actions {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 480px;
+  margin: 0.25rem auto 0;
+}
+
+.login-footer .no-margin {
+  margin: 0;
+  display: block;
+  color: var(--label-color);
+  margin-bottom: 0.5rem;
+  font-size: 1em;
+}
+
+/* Ensure forgot-password is separated from the login button */
+.login-footer p:first-of-type {
+  margin-top: 0.6rem;
+}
+
+.error-message {
+  color: #ff6b6b;
+  margin-top: 0.5rem;
+}
+
+/* Checkbox Group */
+.checkbox-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+.checkbox-group label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  font-weight: 400;
+}
+
+.checkbox-group input[type="checkbox"] {
+  width: auto;
+  margin: 0;
+  cursor: pointer;
 }
 
 .signup-btn {
@@ -293,6 +375,7 @@ button:focus-visible {
   :root {
     color: #213547;
     background-color: #ffffff;
+    --label-color: #213547;
   }
 
   button {

@@ -28,7 +28,7 @@ export class ModeSelection {
             <div class="mode-icon">🚗</div>
             <div class="mode-content">
               <h2>I can offer a ride</h2>
-              <p>Share your car ans help passengers</p>
+              <p>Share your car and help passengers</p>
             </div>
           </button>
         </div>

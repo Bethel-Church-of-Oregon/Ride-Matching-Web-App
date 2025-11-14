@@ -30,8 +30,9 @@ export class LoginScreen {
         </form>
 
         <div class="login-footer">
-          <p>Don't have an account? <button id="signup-btn" class="signup-btn">Sign up</button></p>
-          <p class="error-message" id="login-error" aria-live="polite"></p>
+          <p class="no-margin"><button type="button" id="forgot-password-btn" class="link-btn">Forgot password?</button></p>
+          <p class="no-margin">Don't have an account? <button type="button" id="signup-btn" class="link-btn">Sign up</button></p>
+          <p class="error-message" id="login-error" aria-live="polite"></p>         
         </div>
       </div>
     `;
@@ -65,6 +66,26 @@ export class LoginScreen {
     signupBtn.addEventListener('click', () => {
       // When signup is clicked, show the current start screen (ModeSelection)
       this.onAuthenticated();
+    });
+
+    // Forgot password handler
+    const forgotBtn = document.querySelector<HTMLButtonElement>('#forgot-password-btn')!;
+    forgotBtn.addEventListener('click', () => {
+      const emailInput = (document.querySelector<HTMLInputElement>('#email')!).value.trim();
+      if (!emailInput) {
+        const errorDisplay = document.querySelector<HTMLParagraphElement>('#login-error')!;
+        errorDisplay.textContent = 'Please enter your email above to receive a password reset link.';
+        return;
+      }
+
+      // Simulate password reset flow
+      // In a real app this would call an API to send a reset email
+      // Clear any previous error
+      const errorDisplay = document.querySelector<HTMLParagraphElement>('#login-error')!;
+      errorDisplay.textContent = '';
+      // Use console/log helper for user feedback
+      // Import showMessage if needed; currently using inline message display
+      alert(`If an account exists for ${emailInput}, a password reset link has been sent.`);
     });
   }
 }

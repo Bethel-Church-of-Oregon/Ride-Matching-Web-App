@@ -21,9 +21,30 @@ export class DriverMode {
         
         <div class="driver-form">
           <div class="form-group">
+            <label for="driver-name">Name</label>
+            <input type="text" id="driver-name" placeholder="Enter your name" required />
+          </div>
+          
+          <div class="form-group">
+            <label for="driver-phone">Phone</label>
+            <input type="tel" id="driver-phone" placeholder="000-000-0000" required />
+          </div>
+          
+          <div class="form-group">
+            <label for="driver-email">Email</label>
+            <input type="email" id="driver-email" placeholder="example@email.com" required />
+          </div>
+          
+          <div class="form-group">
+            <label for="driver-address">Home address</label>
+            <input type="text" id="driver-address" placeholder="Enter your home address" required />
+          </div>
+          
+          <div class="form-group">
             <label for="vehicle-type">Vehicle Type</label>
-            <select id="vehicle-type">
-              <option value="car">Car</option>
+            <select id="vehicle-type" required>
+              <option value="">Select...</option>
+              <option value="sedan">Sedan</option>
               <option value="suv">SUV</option>
               <option value="van">Van</option>
               <option value="truck">Truck</option>
@@ -32,30 +53,23 @@ export class DriverMode {
           
           <div class="form-group">
             <label for="available-seats">Available Seats</label>
-            <input type="number" id="available-seats" min="1" max="8" value="4" />
+            <input type="number" id="available-seats" min="1" max="8" value="4" required />
           </div>
           
           <div class="form-group">
-            <label for="start-location">Start Location</label>
-            <input type="text" id="start-location" placeholder="Enter starting address" />
+            <label for="available-days">Available Days</label>
+            <div class="checkbox-group">
+              <label><input type="checkbox" name="days" value="monday" /> Monday</label>
+              <label><input type="checkbox" name="days" value="tuesday" /> Tuesday</label>
+              <label><input type="checkbox" name="days" value="wednesday" /> Wednesday</label>
+              <label><input type="checkbox" name="days" value="thursday" /> Thursday</label>
+              <label><input type="checkbox" name="days" value="friday" /> Friday</label>
+              <label><input type="checkbox" name="days" value="saturday" /> Saturday</label>
+              <label><input type="checkbox" name="days" value="sunday" /> Sunday</label>
+            </div>
           </div>
           
-          <div class="form-group">
-            <label for="end-location">Destination</label>
-            <input type="text" id="end-location" placeholder="Enter destination address" />
-          </div>
-          
-          <div class="form-group">
-            <label for="departure-time">Departure Time</label>
-            <input type="datetime-local" id="departure-time" />
-          </div>
-          
-          <div class="form-group">
-            <label for="price-per-seat">Price per Seat ($)</label>
-            <input type="number" id="price-per-seat" min="0" step="0.01" placeholder="0.00" />
-          </div>
-          
-          <button class="primary-btn" id="post-ride-btn">Post Ride</button>
+          <button class="primary-btn" id="register-driver-btn">Register Driver</button>
         </div>
         
         <div id="driver-results" class="results-container"></div>
@@ -66,34 +80,41 @@ export class DriverMode {
     const backBtn = document.querySelector<HTMLButtonElement>('#back-btn')!;
     backBtn.addEventListener('click', () => this.onBack());
 
-    // Add post ride button handler
-    const postBtn = document.querySelector<HTMLButtonElement>('#post-ride-btn')!;
-    postBtn.addEventListener('click', () => this.postRide());
+    // Add register button handler
+    const registerBtn = document.querySelector<HTMLButtonElement>('#register-driver-btn')!;
+    registerBtn.addEventListener('click', () => this.registerDriver());
   }
 
-  private postRide(): void {
+  private registerDriver(): void {
+    const name = (document.querySelector<HTMLInputElement>('#driver-name')?.value || '').trim();
+    const phone = (document.querySelector<HTMLInputElement>('#driver-phone')?.value || '').trim();
+    const email = (document.querySelector<HTMLInputElement>('#driver-email')?.value || '').trim();
+    const address = (document.querySelector<HTMLInputElement>('#driver-address')?.value || '').trim();
     const vehicleType = (document.querySelector<HTMLSelectElement>('#vehicle-type')?.value || '').trim();
     const availableSeats = parseInt(document.querySelector<HTMLInputElement>('#available-seats')?.value || '1');
-    const startLocation = (document.querySelector<HTMLInputElement>('#start-location')?.value || '').trim();
-    const endLocation = (document.querySelector<HTMLInputElement>('#end-location')?.value || '').trim();
-    const departureTime = document.querySelector<HTMLInputElement>('#departure-time')?.value;
-    const pricePerSeat = parseFloat(document.querySelector<HTMLInputElement>('#price-per-seat')?.value || '0');
+    
+    // Get selected days
+    const dayCheckboxes = document.querySelectorAll<HTMLInputElement>('input[name="days"]:checked');
+    const selectedDays = Array.from(dayCheckboxes).map(cb => cb.value);
 
-    if (!startLocation || !endLocation) {
-      showMessage('Please fill in all required fields', 'error');
+    if (!name || !phone || !email || !address || !vehicleType || selectedDays.length === 0) {
+      showMessage('Please fill in all fields', 'error');
       return;
     }
 
+    const daysText = selectedDays.join(', ');
     const results = document.querySelector<HTMLDivElement>('#driver-results')!;
     results.innerHTML = `
       <div class="success-message">
-        <p>✅ Ride posted successfully!</p>
+        <p>✅ Driver information has been registered!</p>
         <div class="ride-details">
-          <p><strong>Vehicle:</strong> ${vehicleType.toUpperCase()}</p>
+          <p><strong>Name:</strong> ${name}</p>
+          <p><strong>Phone:</strong> ${phone}</p>
+          <p><strong>Email:</strong> ${email}</p>
+          <p><strong>Home Address:</strong> ${address}</p>
+          <p><strong>Vehicle Type:</strong> ${vehicleType}</p>
           <p><strong>Available Seats:</strong> ${availableSeats}</p>
-          <p><strong>Route:</strong> ${startLocation} → ${endLocation}</p>
-          ${departureTime ? `<p><strong>Departure:</strong> ${new Date(departureTime).toLocaleString()}</p>` : ''}
-          ${pricePerSeat > 0 ? `<p><strong>Price per Seat:</strong> $${pricePerSeat.toFixed(2)}</p>` : ''}
+          <p><strong>Available days:</strong> ${daysText}</p>
         </div>
       </div>
     `;
