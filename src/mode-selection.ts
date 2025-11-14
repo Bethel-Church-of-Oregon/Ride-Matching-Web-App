@@ -12,23 +12,23 @@ export class ModeSelection {
     
     app.innerHTML = `
       <div class="container">
-        <h1>🚗 Ride Matching Web App</h1>
-        <p class="subtitle">Choose your mode to get started</p>
+        <h1>🚗 Sign-Up for RideMatch</h1>
+        <p class="subtitle">Choose how you want to use RideMatch</p>
         
         <div class="mode-selection">
           <button class="mode-btn passenger-btn" data-mode="passenger">
             <div class="mode-icon">🚶</div>
             <div class="mode-content">
               <h2>Looking for a Ride</h2>
-              <p>Find drivers going your way</p>
+              <p>Find a ride going your way</p>
             </div>
           </button>
           
           <button class="mode-btn driver-btn" data-mode="driver">
             <div class="mode-icon">🚗</div>
             <div class="mode-content">
-              <h2>Driving a Vehicle</h2>
-              <p>Offer rides to passengers</p>
+              <h2>I can offer a ride</h2>
+              <p>Share your car ans help passengers</p>
             </div>
           </button>
         </div>

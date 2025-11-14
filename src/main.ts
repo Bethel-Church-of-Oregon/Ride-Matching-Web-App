@@ -1,11 +1,13 @@
 import './style.css';
 import { UserMode } from './types';
 import { ModeSelection } from './mode-selection';
+import { LoginScreen } from './login.ts';
 import { PassengerMode } from './passenger-mode';
 import { DriverMode } from './driver-mode';
 
 class RideMatchingApp {
   private modeSelection: ModeSelection;
+  private loginScreen: LoginScreen;
   private passengerMode: PassengerMode;
   private driverMode: DriverMode;
 
@@ -13,12 +15,24 @@ class RideMatchingApp {
     this.passengerMode = new PassengerMode(() => this.showModeSelection());
     this.driverMode = new DriverMode(() => this.showModeSelection());
     this.modeSelection = new ModeSelection((mode) => this.selectMode(mode));
+    this.loginScreen = new LoginScreen(() => this.showModeSelection());
     this.initializeApp();
     this.registerServiceWorker();
   }
 
   private initializeApp(): void {
-    this.showModeSelection();
+    // Start with the login screen; user can login or sign up
+    // If there's a simple session (email saved), skip login
+    const saved = localStorage.getItem('rideMatch:userEmail');
+    if (saved) {
+      this.showModeSelection();
+    } else {
+      this.showLogin();
+    }
+  }
+
+  private showLogin(): void {
+    this.loginScreen.render();
   }
 
   private showModeSelection(): void {

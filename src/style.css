@@ -186,6 +186,33 @@ h2 {
   color: rgba(255, 255, 255, 0.5);
 }
 
+/* Login / Signup */
+.login-form {
+  max-width: 480px;
+  margin: 1.5rem auto 0;
+  text-align: left;
+}
+
+.login-footer {
+  margin-top: 1rem;
+  color: rgba(255,255,255,0.8);
+}
+
+.signup-btn {
+  border: none;
+  background: transparent;
+  color: #646cff;
+  cursor: pointer;
+  padding: 0;
+  font-weight: 600;
+  font-family: inherit;
+}
+
+.error-message {
+  color: #ff6b6b;
+  margin-top: 0.5rem;
+}
+
 .primary-btn {
   width: 100%;
   border-radius: 8px;
