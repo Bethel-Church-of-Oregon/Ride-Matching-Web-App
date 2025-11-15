@@ -9,10 +9,12 @@ export class ModeSelection {
 
   public render(): void {
     const app = document.querySelector<HTMLDivElement>('#app')!;
-    
+
     app.innerHTML = `
-      <div class="container">
-        <h1>🚗 Sign-Up for RideMatch</h1>
+      <div>
+        <button id="back-btn" class="menu-back" aria-label="Back">← Back</button>
+        <div class="container">
+        <h1>Sign-Up for RideMatch</h1>
         <p class="subtitle">Choose how you want to use RideMatch</p>
         
         <div class="mode-selection">
@@ -42,6 +44,17 @@ export class ModeSelection {
         const mode = btn.getAttribute('data-mode') as UserMode;
         this.onModeSelected(mode);
       });
+    });
+
+    // Back / menu handler: try to go back in history, fallback to root
+    const backBtn = document.querySelector<HTMLButtonElement>('#back-btn');
+    backBtn?.addEventListener('click', () => {
+      if (window.history && window.history.length > 1) {
+        window.history.back();
+      } else {
+        // fallback: navigate to root of the app
+        window.location.href = '/';
+      }
     });
   }
 }
