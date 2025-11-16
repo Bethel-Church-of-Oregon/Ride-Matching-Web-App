@@ -51,6 +51,8 @@ npm run dev
 
 The app will be available at `http://localhost:3000`
 
+If you plan to use the included Express + Prisma backend (SQLite) for registrations, follow the Backend setup below before using registration features.
+
 ## 🛠️ Development
 
 ### Local Development Setup
@@ -66,9 +68,50 @@ The app will be available at `http://localhost:3000`
    npm install
    ```
 
+3. **Backend (Express + Prisma + SQLite) - optional but recommended**
+
+  If you want to run the local API server that stores registrations in a local SQLite database, perform these steps.
+
+  a. Move into the `server/` directory (create it if it doesn't exist):
+
+  ```bash
+  cd server
+  ```
+
+  b. Initialize package.json (only if `server/package.json` is not present):
+
+  ```bash
+  npm init -y
+  ```
+
+  c. Install runtime and dev dependencies:
+
+  ```bash
+  npm install express cors @prisma/client bcrypt
+  npm install -D prisma ts-node-dev typescript @types/express @types/node @types/bcrypt
+  ```
+
+  d. Generate Prisma client and create the local SQLite DB (run from `server/`):
+
+  ```bash
+  npx prisma generate
+  npx prisma migrate dev --name init
+  ```
+
+  e. Start the backend server (development):
+
+  ```bash
+  npx ts-node-dev --respawn --transpile-only src/index.ts
+  # or add a script in server/package.json: "dev": "ts-node-dev --respawn --transpile-only src/index.ts" and run
+  # npm run dev
+  ```
+
+  The backend listens on port 4000 by default (`http://localhost:4000`).
+
 3. **Start development server**
    ```bash
-   npm run dev
+  # In the project root (frontend)
+  npm run dev
    ```
 
 4. **Open your browser**

@@ -1,0 +1,32 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model Passenger {
+  id            Int      @id @default(autoincrement())
+  name          String
+  phone         String
+  email         String   @unique
+  passwordHash  String
+  address       String
+  passengerCount Int
+  createdAt     DateTime @default(now())
+}
+
+model Driver {
+  id            Int      @id @default(autoincrement())
+  name          String
+  phone         String
+  email         String   @unique
+  passwordHash  String
+  address       String
+  vehicleType   String
+  availableSeats Int
+  availableDays String
+  createdAt     DateTime @default(now())
+}
