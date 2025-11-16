@@ -70,40 +70,25 @@ If you plan to use the included Express + Prisma backend (SQLite) for registrati
 
 3. **Backend (Express + Prisma + SQLite) - optional but recommended**
 
-  If you want to run the local API server that stores registrations in a local SQLite database, perform these steps.
+  Development / Run (local macOS, zsh)
 
-  a. Move into the `server/` directory (create it if it doesn't exist):
-
+  Server dependency installation
   ```bash
   cd server
+  npm install
   ```
 
-  b. Initialize package.json (only if `server/package.json` is not present):
-
+  Prisma initialization and DB creation
   ```bash
-  npm init -y
-  ```
-
-  c. Install runtime and dev dependencies:
-
-  ```bash
-  npm install express cors @prisma/client bcrypt
-  npm install -D prisma ts-node-dev typescript @types/express @types/node @types/bcrypt
-  ```
-
-  d. Generate Prisma client and create the local SQLite DB (run from `server/`):
-
-  ```bash
-  npx prisma generate
+  # First run: create and apply migration
   npx prisma migrate dev --name init
+  # Or push schema directly to the DB
+  # npx prisma db push
   ```
 
-  e. Start the backend server (development):
-
+  Server start (development mode)
   ```bash
-  npx ts-node-dev --respawn --transpile-only src/index.ts
-  # or add a script in server/package.json: "dev": "ts-node-dev --respawn --transpile-only src/index.ts" and run
-  # npm run dev
+  npm run dev
   ```
 
   The backend listens on port 4000 by default (`http://localhost:4000`).
