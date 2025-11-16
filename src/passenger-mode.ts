@@ -9,7 +9,7 @@ export class PassengerMode {
 
   public render(): void {
     const app = document.querySelector<HTMLDivElement>('#app')!;
-    
+
     app.innerHTML = `
       <div class="container">
         <div class="header-actions">
@@ -32,7 +32,17 @@ export class PassengerMode {
           
           <div class="form-group">
             <label for="passenger-email">Email</label>
-            <input type="email" id="passenger-email" placeholder="example@email.com" required />
+            <input type="email" id="passenger-email" placeholder="you@example.com" required />
+          </div>
+
+          <div class="form-group">
+            <label for="passenger-password">Password</label>
+            <input type="password" id="passenger-password" placeholder="Create a password" required />
+          </div>
+
+          <div class="form-group">
+            <label for="passenger-password-confirm">Confirm Password</label>
+            <input type="password" id="passenger-password-confirm" placeholder="Confirm password" required />
           </div>
           
           <div class="form-group">
@@ -67,9 +77,21 @@ export class PassengerMode {
     const email = (document.querySelector<HTMLInputElement>('#passenger-email')?.value || '').trim();
     const address = (document.querySelector<HTMLInputElement>('#passenger-address')?.value || '').trim();
     const passengerCount = parseInt(document.querySelector<HTMLInputElement>('#passenger-count')?.value || '1');
+    const password = (document.querySelector<HTMLInputElement>('#passenger-password')?.value || '').trim();
+    const passwordConfirm = (document.querySelector<HTMLInputElement>('#passenger-password-confirm')?.value || '').trim();
 
-    if (!name || !phone || !email || !address) {
-      showMessage('Please fill in all fields', 'error');
+    if (!name || !phone || !email || !address || !password || !passwordConfirm) {
+      showMessage('Please fill in all fields, including password and confirmation', 'error');
+      return;
+    }
+
+    if (password.length < 6) {
+      showMessage('Password must be at least 6 characters long', 'error');
+      return;
+    }
+
+    if (password !== passwordConfirm) {
+      showMessage('Passwords do not match', 'error');
       return;
     }
 

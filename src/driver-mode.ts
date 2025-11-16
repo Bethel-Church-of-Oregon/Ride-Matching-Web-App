@@ -9,7 +9,7 @@ export class DriverMode {
 
   public render(): void {
     const app = document.querySelector<HTMLDivElement>('#app')!;
-    
+
     app.innerHTML = `
       <div class="container">
         <div class="header-actions">
@@ -32,7 +32,17 @@ export class DriverMode {
           
           <div class="form-group">
             <label for="driver-email">Email</label>
-            <input type="email" id="driver-email" placeholder="example@email.com" required />
+            <input type="email" id="driver-email" placeholder="you@example.com" required />
+          </div>
+
+          <div class="form-group">
+            <label for="driver-password">Password</label>
+            <input type="password" id="driver-password" placeholder="Create a password" required />
+          </div>
+
+          <div class="form-group">
+            <label for="driver-password-confirm">Confirm Password</label>
+            <input type="password" id="driver-password-confirm" placeholder="Confirm password" required />
           </div>
           
           <div class="form-group">
@@ -92,13 +102,25 @@ export class DriverMode {
     const address = (document.querySelector<HTMLInputElement>('#driver-address')?.value || '').trim();
     const vehicleType = (document.querySelector<HTMLSelectElement>('#vehicle-type')?.value || '').trim();
     const availableSeats = parseInt(document.querySelector<HTMLInputElement>('#available-seats')?.value || '1');
-    
+    const password = (document.querySelector<HTMLInputElement>('#driver-password')?.value || '').trim();
+    const passwordConfirm = (document.querySelector<HTMLInputElement>('#driver-password-confirm')?.value || '').trim();
+
     // Get selected days
     const dayCheckboxes = document.querySelectorAll<HTMLInputElement>('input[name="days"]:checked');
     const selectedDays = Array.from(dayCheckboxes).map(cb => cb.value);
 
-    if (!name || !phone || !email || !address || !vehicleType || selectedDays.length === 0) {
-      showMessage('Please fill in all fields', 'error');
+    if (!name || !phone || !email || !address || !vehicleType || selectedDays.length === 0 || !password || !passwordConfirm) {
+      showMessage('Please fill in all fields, including password and confirmation', 'error');
+      return;
+    }
+
+    if (password.length < 6) {
+      showMessage('Password must be at least 6 characters long', 'error');
+      return;
+    }
+
+    if (password !== passwordConfirm) {
+      showMessage('Passwords do not match', 'error');
       return;
     }
 
