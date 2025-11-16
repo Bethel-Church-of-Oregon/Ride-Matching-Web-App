@@ -68,36 +68,34 @@ If you plan to use the included Express + Prisma backend (SQLite) for registrati
    npm install
    ```
 
-3. **Backend (Express + Prisma + SQLite) - optional but recommended**
+3. **Backend (Express + Prisma + SQLite)**
 
-  Development / Run (local macOS, zsh)
+    Server dependency installation
+    ```bash
+    cd server
+    npm install
+    ```
 
-  Server dependency installation
-  ```bash
-  cd server
-  npm install
-  ```
+    Prisma initialization and DB creation
+    ```bash
+    # First run: create and apply migration
+    npx prisma migrate dev --name init
+    # Or push schema directly to the DB
+    # npx prisma db push
+    ```
 
-  Prisma initialization and DB creation
-  ```bash
-  # First run: create and apply migration
-  npx prisma migrate dev --name init
-  # Or push schema directly to the DB
-  # npx prisma db push
-  ```
+    Server start (development mode)
+    ```bash
+    npm run dev
+    ```
 
-  Server start (development mode)
-  ```bash
-  npm run dev
-  ```
-
-  The backend listens on port 4000 by default (`http://localhost:4000`).
+    The backend listens on port 4000 by default (`http://localhost:4000`).
 
 3. **Start development server**
-   ```bash
-  # In the project root (frontend)
-  npm run dev
-   ```
+    ```bash
+    # In the project root (frontend)
+    npm run dev
+    ```
 
 4. **Open your browser**
    - Navigate to `http://localhost:3000`
