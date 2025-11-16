@@ -2,9 +2,11 @@ import { UserMode } from './types';
 
 export class ModeSelection {
   private onModeSelected: (mode: UserMode) => void;
+  private onBack?: () => void;
 
-  constructor(onModeSelected: (mode: UserMode) => void) {
+  constructor(onModeSelected: (mode: UserMode) => void, onBack?: () => void) {
     this.onModeSelected = onModeSelected;
+    this.onBack = onBack;
   }
 
   public render(): void {
@@ -12,7 +14,9 @@ export class ModeSelection {
 
     app.innerHTML = `
       <div>
-        <button id="back-btn" class="menu-back" aria-label="Back">← Back</button>
+          <div class="header-actions">
+            <button class="back-btn" id="back-btn" aria-label="Back">← Back</button>
+          </div>
         <div class="container">
         <h1>Sign-Up for RideMatch</h1>
         <p class="subtitle">Choose how you want to use RideMatch</p>
@@ -46,9 +50,14 @@ export class ModeSelection {
       });
     });
 
-    // Back / menu handler: try to go back in history, fallback to root
+    // Back / menu handler: prefer app-provided onBack, else fall back to history or root
     const backBtn = document.querySelector<HTMLButtonElement>('#back-btn');
     backBtn?.addEventListener('click', () => {
+      if (this.onBack) {
+        this.onBack();
+        return;
+      }
+
       if (window.history && window.history.length > 1) {
         window.history.back();
       } else {
