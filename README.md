@@ -51,6 +51,8 @@ npm run dev
 
 The app will be available at `http://localhost:3000`
 
+If you plan to use the included Express + Prisma backend (SQLite) for registrations, follow the Backend setup below before using registration features.
+
 ## 🛠️ Development
 
 ### Local Development Setup
@@ -61,15 +63,44 @@ The app will be available at `http://localhost:3000`
    cd Ride-Matching-Web-App
    ```
 
-2. **Install dependencies**
+2. **Install dependencies (frontend)**
+    ```bash
+    # Install frontend dependencies (run in project root)
+    npm install
+    ```
+
+3. **Backend (Express + Prisma + SQLite)**
+
+   Server dependency installation
    ```bash
+   # Install backend dependencies (run inside server/ if it has its own package.json)
+   cd server
    npm install
+
+   # Alternatively, run both installs from the project root in one line:
+   # npm install && (cd server && npm install)
    ```
 
+    Prisma initialization and DB creation
+    ```bash
+    # First run: create and apply migration
+    npx prisma migrate dev --name init
+    # Or push schema directly to the DB
+    # npx prisma db push
+    ```
+
+    Server start (development mode)
+    ```bash
+    npm run dev
+    ```
+
+    The backend listens on port 4000 by default (`http://localhost:4000`).
+
 3. **Start development server**
-   ```bash
-   npm run dev
-   ```
+    ```bash
+    # In the project root (frontend)
+    npm run dev
+    ```
 
 4. **Open your browser**
    - Navigate to `http://localhost:3000`
@@ -85,16 +116,31 @@ The app will be available at `http://localhost:3000`
 
 ```
 Ride-Matching-Web-App/
-├── src/
-│   ├── main.ts          # Main TypeScript entry point
-│   └── style.css        # Application stylesheet
-├── index.html           # HTML entry point
-├── package.json         # Dependencies and npm scripts
-├── package-lock.json    # Dependency lock file
-├── tsconfig.json        # TypeScript configuration
-├── vite.config.ts       # Vite bundler configuration
-├── .gitignore          # Git ignore rules
-└── README.md           # Project documentation
+├── server/               # Express + Prisma backend 
+│   ├── src/
+│   │   └── index.ts      # Express server entry
+│   ├── prisma/
+│   │   └── schema.prisma # Prisma schema (dev.db is ignored)
+|   └── package.json
+├── src/                  # Frontend source (Vite + TypeScript)
+│   ├── main.ts
+│   ├── login.ts
+│   ├── mode-selection.ts
+│   ├── passenger-mode.ts
+│   ├── driver-mode.ts
+│   ├── utils.ts
+│   ├── types.ts
+│   └── style.css
+├── public/               # Static assets (service worker, manifest, icons)
+│   ├── generate-icons.html
+│   ├── manifest.json
+│   └── sw.js
+├── index.html            # HTML entry point
+├── package.json          # Frontend dependencies & npm scripts
+├── tsconfig.json         # TypeScript configuration
+├── vite.config.ts        # Vite dev server / build config
+├── .gitignore            # Git ignore rules
+└── README.md             # Project documentation
 ```
 
 ## 📝 Scripts

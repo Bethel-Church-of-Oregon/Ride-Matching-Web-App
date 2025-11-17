@@ -14,7 +14,7 @@ class RideMatchingApp {
   constructor() {
     this.passengerMode = new PassengerMode(() => this.showModeSelection());
     this.driverMode = new DriverMode(() => this.showModeSelection());
-    this.modeSelection = new ModeSelection((mode) => this.selectMode(mode));
+    this.modeSelection = new ModeSelection((mode) => this.selectMode(mode), () => this.showLogin());
     this.loginScreen = new LoginScreen(() => this.showModeSelection());
     this.initializeApp();
     this.registerServiceWorker();
@@ -53,7 +53,7 @@ class RideMatchingApp {
         const registration = await navigator.serviceWorker.register('/sw.js', {
           scope: '/'
         });
-        
+
         console.log('[Service Worker] Registered successfully:', registration.scope);
 
         // Check for updates

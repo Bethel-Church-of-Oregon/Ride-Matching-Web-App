@@ -2,17 +2,23 @@ import { UserMode } from './types';
 
 export class ModeSelection {
   private onModeSelected: (mode: UserMode) => void;
+  private onBack?: () => void;
 
-  constructor(onModeSelected: (mode: UserMode) => void) {
+  constructor(onModeSelected: (mode: UserMode) => void, onBack?: () => void) {
     this.onModeSelected = onModeSelected;
+    this.onBack = onBack;
   }
 
   public render(): void {
     const app = document.querySelector<HTMLDivElement>('#app')!;
-    
+
     app.innerHTML = `
-      <div class="container">
-        <h1>🚗 Sign-Up for RideMatch</h1>
+      <div>
+          <div class="header-actions">
+            <button class="back-btn" id="back-btn" aria-label="Back">← Back</button>
+          </div>
+        <div class="container">
+        <h1>Sign-Up for RideMatch</h1>
         <p class="subtitle">Choose how you want to use RideMatch</p>
         
         <div class="mode-selection">
@@ -42,6 +48,22 @@ export class ModeSelection {
         const mode = btn.getAttribute('data-mode') as UserMode;
         this.onModeSelected(mode);
       });
+    });
+
+    // Back / menu handler: prefer app-provided onBack, else fall back to history or root
+    const backBtn = document.querySelector<HTMLButtonElement>('#back-btn');
+    backBtn?.addEventListener('click', () => {
+      if (this.onBack) {
+        this.onBack();
+        return;
+      }
+
+      if (window.history && window.history.length > 1) {
+        window.history.back();
+      } else {
+        // fallback: navigate to root of the app
+        window.location.href = '/';
+      }
     });
   }
 }
