@@ -63,6 +63,7 @@ npm run dev:backend
 - This project uses **npm workspaces** - one `npm install` installs everything!
 - **Express** for local development (fast & simple)
 - **Vercel Serverless Functions** for production (scalable & serverless)
+- Core business logic in `api/core/` is shared between dev & prod environments
 
 ## 🛠️ Development
 
@@ -141,14 +142,16 @@ npm run dev:backend
 ```
 Ride-Matching-Web-App/
 ├── api/                  # Vercel Serverless Functions (Production)
-│   ├── passengers.ts     # Passenger registration endpoint
-│   └── drivers.ts        # Driver registration endpoint
+│   ├── core/             # Shared core business logic
+│   │   ├── passengers.ts # Passenger registration logic (shared)
+│   │   └── drivers.ts    # Driver registration logic (shared)
+│   ├── passengers.ts     # Passenger endpoint wrapper
+│   └── drivers.ts        # Driver endpoint wrapper
 ├── backend-dev/          # Express Backend (Development)
-│   ├── src/
-│   │   └── index.ts      # Express server entry point
+│   ├── index.ts          # Express server (uses shared core logic)
 │   ├── package.json      # Backend dependencies
 │   └── tsconfig.json     # Backend TypeScript config
-├── database/               # Database Schema
+├── database/             # Database Schema
 │   ├── schema.prisma     # Database schema (Neon PostgreSQL)
 │   └── migrations/       # Database migrations
 ├── src/                  # Frontend source (Vite + TypeScript)
@@ -199,6 +202,7 @@ Ride-Matching-Web-App/
 ### Backend
 - **Development**: Express (v4.18+) - Fast local development server
 - **Production**: Vercel Serverless Functions - Scalable serverless deployment
+- **Shared Core Logic**: `api/core/` - Business logic shared between dev & prod
 - **Database**: Neon PostgreSQL - Serverless PostgreSQL
 - **ORM**: Prisma (v6.19.0) - Type-safe database access
 - **Security**: bcrypt - Password hashing

@@ -2,8 +2,8 @@ import express from 'express';
 import cors from 'cors';
 import * as dotenv from 'dotenv';
 import { resolve } from 'path';
-import { registerPassenger } from '../api/handlers/passengers';
-import { registerDriver } from '../api/handlers/drivers';
+import { registerPassenger } from '../api/core/passengers';
+import { registerDriver } from '../api/core/drivers';
 
 // Load environment variables from root .env file
 dotenv.config({ path: resolve(__dirname, '../.env') });

@@ -1,5 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { registerPassenger } from './handlers/passengers.js';
+import { registerPassenger } from './core/passengers.js';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   // Enable CORS
