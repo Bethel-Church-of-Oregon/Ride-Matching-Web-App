@@ -6,15 +6,19 @@
   "workspaces": [
     "backend-dev"
   ],
+  "prisma": {
+    "schema": "database/schema.prisma"
+  },
   "scripts": {
     "dev": "vite",
     "dev:backend": "npm run dev --workspace=backend-dev",
-    "build": "npm run build --workspace=backend-dev && tsc && vite build",
+    "build": "npx prisma generate && npm run build --workspace=backend-dev && tsc && vite build",
     "preview": "vite preview",
     "type-check": "tsc --noEmit",
-    "db:migrate": "npm run db:migrate --workspace=backend-dev",
-    "db:generate": "npm run db:generate --workspace=backend-dev",
-    "vercel-build": "npm run build --workspace=backend-dev && npm run build"
+    "db:migrate": "npx dotenv -e .env -- prisma migrate deploy",
+    "db:generate": "npx prisma generate",
+    "db:migrate:dev": "npx dotenv -e .env -- prisma migrate dev",
+    "vercel-build": "npx prisma generate && npm run build"
   },
   "keywords": [],
   "author": "",

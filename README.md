@@ -98,7 +98,7 @@ npm run dev:backend
 4. **Initialize database**
    ```bash
    # First time setup - creates database tables
-   cd backend-dev && npx dotenv -e ../.env -- prisma migrate dev --name init
+   npx dotenv -e .env -- prisma migrate dev --name init
 
    # Or use the npm scripts (for subsequent updates)
    npm run db:generate  # Generate Prisma Client
@@ -146,11 +146,11 @@ Ride-Matching-Web-App/
 ├── backend-dev/          # Express Backend (Development)
 │   ├── src/
 │   │   └── index.ts      # Express server entry point
-│   ├── prisma/
-│   │   ├── schema.prisma # Prisma schema (Neon PostgreSQL)
-│   │   └── migrations/   # Database migrations
 │   ├── package.json      # Backend dependencies
 │   └── tsconfig.json     # Backend TypeScript config
+├── database/               # Database Schema
+│   ├── schema.prisma     # Database schema (Neon PostgreSQL)
+│   └── migrations/       # Database migrations
 ├── src/                  # Frontend source (Vite + TypeScript)
 │   ├── main.ts
 │   ├── login.ts
@@ -184,7 +184,8 @@ Ride-Matching-Web-App/
 | `npm run build` | Build for production |
 | `npm run preview` | Preview production build locally |
 | `npm run type-check` | Run TypeScript type checking |
-| `npm run db:migrate` | Deploy Prisma migrations |
+| `npm run db:migrate` | Deploy Database migrations (production) |
+| `npm run db:migrate:dev` | Create and apply new migration (development) |
 | `npm run db:generate` | Generate Prisma client |
 | `npm run vercel-build` | Vercel build command (auto-runs on deploy) |
 
@@ -221,7 +222,7 @@ Ride-Matching-Web-App/
 - `@vercel/node` - Vercel serverless function types
 
 **Shared:**
-- `@prisma/client` - Prisma database client
+- `@database/client` - Prisma database client
 - `bcrypt` - Password encryption
 
 ## 🔧 Troubleshooting

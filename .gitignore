@@ -36,10 +36,10 @@ npm-debug.log*
 coverage/
 .nyc_output/
 
-### Prisma / DB
+### Database
 # Ignore local SQLite dev DB (don't ignore migrations folder)
-backend-dev/prisma/dev.db
-backend-dev/prisma/*.db
+database/dev.db
+database/*.db
 
 ### Backend build / deps
 backend-dev/node_modules/
