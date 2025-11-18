@@ -4,8 +4,8 @@
   "description": "A TypeScript web application for ride matching",
   "type": "module",
   "scripts": {
-    "dev": "vercel dev",
-    "dev:frontend": "vite",
+    "dev": "vite",
+    "start": "vercel dev",
     "build": "cd server && npx prisma generate && cd .. && tsc && vite build",
     "preview": "vite preview",
     "type-check": "tsc --noEmit",

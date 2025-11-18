@@ -48,8 +48,8 @@ npm install
 # Install Vercel CLI globally (if not already installed)
 npm install -g vercel
 
-# Start development server with Vercel Dev
-npm run dev
+# Start development server with Vercel Dev (frontend + API)
+npm start
 ```
 
 The app will be available at `http://localhost:3000`
@@ -98,13 +98,18 @@ The app will be available at `http://localhost:3000`
 
 5. **Start development server with Vercel Dev**
     ```bash
-    npm run dev
+    npm start
     ```
 
     This runs `vercel dev` which:
     - Starts the Vite frontend on port 3000
     - Runs serverless functions locally at `/api/*`
     - Hot reloads on file changes
+
+    **Alternative - Frontend only (no API):**
+    ```bash
+    npm run dev
+    ```
 
 6. **Open your browser**
    - Navigate to `http://localhost:3000`
@@ -116,16 +121,6 @@ The app will be available at `http://localhost:3000`
 - **Hot Module Replacement (HMR)** - Changes reflect instantly without page refresh
 - **TypeScript Compilation** - Automatic type checking and compilation
 - **Source Maps** - Easy debugging with original source code mapping
-
-### Alternative: Frontend Only Development
-
-If you only want to work on the frontend without API:
-
-```bash
-npm run dev:frontend
-```
-
-This runs Vite directly on port 3000 without serverless functions.
 
 ## 📁 Project Structure
 
@@ -166,8 +161,8 @@ Ride-Matching-Web-App/
 
 | Command | Description |
 |---------|-------------|
-| `npm run dev` | Start Vercel Dev (frontend + serverless functions) |
-| `npm run dev:frontend` | Start Vite frontend only (no API) |
+| `npm start` | Start Vercel Dev (frontend + serverless functions) |
+| `npm run dev` | Start Vite frontend only (no API) |
 | `npm run build` | Build for production |
 | `npm run preview` | Preview production build locally |
 | `npm run type-check` | Run TypeScript type checking |
