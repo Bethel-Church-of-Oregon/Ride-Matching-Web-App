@@ -1,8 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { PrismaClient } from '@prisma/client';
-import bcrypt from 'bcrypt';
-
-const prisma = new PrismaClient();
+import { registerPassenger } from '../src/handlers/passengers';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   // Enable CORS
@@ -25,37 +22,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   try {
-    const { name, phone, email, password, address, passengerCount } = req.body;
-
-    if (!name || !phone || !email || !password || !address) {
-      return res.status(400).json({ message: 'Missing required fields' });
-    }
-
-    const existing = await prisma.passenger.findUnique({ where: { email } });
-    if (existing) {
-      return res.status(409).json({ message: 'Email already registered' });
-    }
-
-    const passwordHash = await bcrypt.hash(password, 10);
-
-    const created = await prisma.passenger.create({
-      data: {
-        name,
-        phone,
-        email,
-        passwordHash,
-        address,
-        passengerCount: passengerCount || 1
-      }
-    });
-
-    // Don't return passwordHash
-    const { passwordHash: _ph, ...safe } = created as any;
-    res.status(201).json(safe);
-  } catch (err) {
+    const result = await registerPassenger(req.body);
+    res.status(201).json(result);
+  } catch (err: any) {
     console.error(err);
-    res.status(500).json({ message: 'Server error' });
-  } finally {
-    await prisma.$disconnect();
+    const statusCode = err.statusCode || 400;
+    res.status(statusCode).json({ message: err.message || 'Server error' });
   }
 }

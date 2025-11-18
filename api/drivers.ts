@@ -1,8 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { PrismaClient } from '@prisma/client';
-import bcrypt from 'bcrypt';
-
-const prisma = new PrismaClient();
+import { registerDriver } from '../src/handlers/drivers';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   // Enable CORS
@@ -25,39 +22,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   try {
-    const { name, phone, email, password, address, vehicleType, availableSeats, availableDays } = req.body;
-
-    if (!name || !phone || !email || !password || !address || !vehicleType) {
-      return res.status(400).json({ message: 'Missing required fields' });
-    }
-
-    const existing = await prisma.driver.findUnique({ where: { email } });
-    if (existing) {
-      return res.status(409).json({ message: 'Email already registered' });
-    }
-
-    const passwordHash = await bcrypt.hash(password, 10);
-
-    const created = await prisma.driver.create({
-      data: {
-        name,
-        phone,
-        email,
-        passwordHash,
-        address,
-        vehicleType,
-        availableSeats: availableSeats || 1,
-        availableDays: Array.isArray(availableDays) ? availableDays.join(',') : (availableDays || '')
-      }
-    });
-
-    // Don't return passwordHash
-    const { passwordHash: _ph, ...safe } = created as any;
-    res.status(201).json(safe);
-  } catch (err) {
+    const result = await registerDriver(req.body);
+    res.status(201).json(result);
+  } catch (err: any) {
     console.error(err);
-    res.status(500).json({ message: 'Server error' });
-  } finally {
-    await prisma.$disconnect();
+    const statusCode = err.statusCode || 400;
+    res.status(statusCode).json({ message: err.message || 'Server error' });
   }
 }
