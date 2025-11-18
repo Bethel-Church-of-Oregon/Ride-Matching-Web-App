@@ -45,16 +45,21 @@ Before you begin, ensure you have the following installed:
 # Install dependencies
 npm install
 
-# Install Vercel CLI globally (if not already installed)
-npm install -g vercel
+# Install server dependencies
+cd server && npm install && cd ..
 
-# Start development server with Vercel Dev (frontend + API)
-npm start
+# Start development servers
+# Terminal 1: Frontend (Vite)
+npm run dev
+
+# Terminal 2: Backend (Express)
+npm run dev:backend
 ```
 
-The app will be available at `http://localhost:3000`
+- **Frontend**: `http://localhost:3000`
+- **Backend**: `http://localhost:4000`
 
-**Note**: This project uses Vercel Serverless Functions for local development and production. The `vercel dev` command runs both the frontend and serverless functions locally.
+**Note**: This project uses **Express** for local development (fast & simple) and **Vercel Serverless Functions** for production (scalable & serverless).
 
 ## 🛠️ Development
 
@@ -68,11 +73,11 @@ The app will be available at `http://localhost:3000`
 
 2. **Install dependencies**
     ```bash
-    # Install all project dependencies
+    # Install frontend dependencies
     npm install
 
-    # Install Vercel CLI globally
-    npm install -g vercel
+    # Install backend dependencies
+    cd server && npm install && cd ..
     ```
 
 3. **Set up Neon PostgreSQL Database**
@@ -96,43 +101,50 @@ The app will be available at `http://localhost:3000`
    npm run db:migrate
    ```
 
-5. **Start development server with Vercel Dev**
-    ```bash
-    npm start
-    ```
+5. **Start development servers**
 
-    This runs `vercel dev` which:
-    - Starts the Vite frontend on port 3000
-    - Runs serverless functions locally at `/api/*`
-    - Hot reloads on file changes
+    Open **two terminal windows**:
 
-    **Alternative - Frontend only (no API):**
+    **Terminal 1 - Frontend (Vite):**
     ```bash
     npm run dev
     ```
+    → Frontend runs on `http://localhost:3000`
+
+    **Terminal 2 - Backend (Express):**
+    ```bash
+    npm run dev:backend
+    ```
+    → Backend runs on `http://localhost:4000`
 
 6. **Open your browser**
    - Navigate to `http://localhost:3000`
    - The app will automatically reload when you save changes
+   - Express server has hot reload with `tsx watch`
 
 ### Development Features
 
-- **Vercel Dev** - Local serverless function simulation
-- **Hot Module Replacement (HMR)** - Changes reflect instantly without page refresh
-- **TypeScript Compilation** - Automatic type checking and compilation
-- **Source Maps** - Easy debugging with original source code mapping
+- **Express Server** - Fast local development with instant restart
+- **Hot Module Replacement (HMR)** - Frontend changes reflect instantly
+- **TypeScript** - Full type safety on both frontend and backend
+- **Auto Reload** - Server restarts automatically on code changes (tsx watch)
+- **Easy Debugging** - Simple Express server for debugging
 
 ## 📁 Project Structure
 
 ```
 Ride-Matching-Web-App/
-├── api/                  # Vercel Serverless Functions
+├── api/                  # Vercel Serverless Functions (Production)
 │   ├── passengers.ts     # Passenger registration endpoint
 │   └── drivers.ts        # Driver registration endpoint
-├── server/
-│   └── prisma/
-│       ├── schema.prisma # Prisma schema (Neon PostgreSQL)
-│       └── migrations/   # Database migrations
+├── server/               # Express Backend (Development)
+│   ├── src/
+│   │   └── index.ts      # Express server entry point
+│   ├── prisma/
+│   │   ├── schema.prisma # Prisma schema (Neon PostgreSQL)
+│   │   └── migrations/   # Database migrations
+│   ├── package.json      # Server dependencies
+│   └── tsconfig.json     # Server TypeScript config
 ├── src/                  # Frontend source (Vite + TypeScript)
 │   ├── main.ts
 │   ├── login.ts
@@ -161,8 +173,8 @@ Ride-Matching-Web-App/
 
 | Command | Description |
 |---------|-------------|
-| `npm start` | Start Vercel Dev (frontend + serverless functions) |
-| `npm run dev` | Start Vite frontend only (no API) |
+| `npm run dev` | Start frontend dev server (Vite on port 3000) |
+| `npm run dev:backend` | Start backend dev server (Express on port 4000) |
 | `npm run build` | Build for production |
 | `npm run preview` | Preview production build locally |
 | `npm run type-check` | Run TypeScript type checking |
@@ -178,18 +190,29 @@ Ride-Matching-Web-App/
 - **PWA** - Progressive Web App with Service Worker
 
 ### Backend
-- **Vercel Serverless Functions** - Scalable serverless API endpoints
-- **Neon PostgreSQL** - Serverless PostgreSQL database
-- **Prisma** (v6.19.0) - Type-safe database ORM
-- **bcrypt** - Password hashing
+- **Development**: Express (v4.18+) - Fast local development server
+- **Production**: Vercel Serverless Functions - Scalable serverless deployment
+- **Database**: Neon PostgreSQL - Serverless PostgreSQL
+- **ORM**: Prisma (v6.19.0) - Type-safe database access
+- **Security**: bcrypt - Password hashing
 
 ### Key Dependencies
 
+**Frontend:**
+- `vite` - Build tool and dev server
+- `typescript` - TypeScript compiler
+
+**Backend (Dev):**
+- `express` - Web framework
+- `cors` - Cross-origin resource sharing
+- `tsx` - TypeScript execution with hot reload
+
+**Backend (Prod):**
 - `@vercel/node` - Vercel serverless function types
+
+**Shared:**
 - `@prisma/client` - Prisma database client
 - `bcrypt` - Password encryption
-- `typescript` - TypeScript compiler
-- `vite` - Build tool and dev server
 
 ## 🔧 Troubleshooting
 

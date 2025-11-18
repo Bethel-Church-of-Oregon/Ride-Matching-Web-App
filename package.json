@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "start": "vercel dev",
+    "dev:backend": "cd server && npm run dev",
     "build": "cd server && npx prisma generate && cd .. && tsc && vite build",
     "preview": "vite preview",
     "type-check": "tsc --noEmit",

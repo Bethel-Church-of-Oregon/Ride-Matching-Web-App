@@ -1,6 +1,9 @@
 // API configuration
-// Vercel Dev runs on port 3000 with /api routes
-const API_BASE_URL = '/api';
+// Development: Express server on port 4000
+// Production: Vercel Serverless Functions
+const API_BASE_URL = import.meta.env.PROD
+  ? '/api'                        // Production (Vercel)
+  : 'http://localhost:4000/api';  // Development (Express)
 
 export interface PassengerData {
   name: string;
