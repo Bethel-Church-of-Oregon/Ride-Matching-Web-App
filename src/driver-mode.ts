@@ -1,4 +1,5 @@
 import { showMessage } from './utils';
+import { registerDriver } from './api';
 
 export class DriverMode {
   private onBack: () => void;
@@ -95,7 +96,7 @@ export class DriverMode {
     registerBtn.addEventListener('click', () => this.registerDriver());
   }
 
-  private registerDriver(): void {
+  private async registerDriver(): Promise<void> {
     const name = (document.querySelector<HTMLInputElement>('#driver-name')?.value || '').trim();
     const phone = (document.querySelector<HTMLInputElement>('#driver-phone')?.value || '').trim();
     const email = (document.querySelector<HTMLInputElement>('#driver-email')?.value || '').trim();
@@ -124,22 +125,42 @@ export class DriverMode {
       return;
     }
 
-    const daysText = selectedDays.join(', ');
     const results = document.querySelector<HTMLDivElement>('#driver-results')!;
-    results.innerHTML = `
-      <div class="success-message">
-        <p>✅ Driver information has been registered!</p>
-        <div class="ride-details">
-          <p><strong>Name:</strong> ${name}</p>
-          <p><strong>Phone:</strong> ${phone}</p>
-          <p><strong>Email:</strong> ${email}</p>
-          <p><strong>Home Address:</strong> ${address}</p>
-          <p><strong>Vehicle Type:</strong> ${vehicleType}</p>
-          <p><strong>Available Seats:</strong> ${availableSeats}</p>
-          <p><strong>Available days:</strong> ${daysText}</p>
+    results.innerHTML = '<p>Registering...</p>';
+
+    try {
+      const response = await registerDriver({
+        name,
+        phone,
+        email,
+        password,
+        address,
+        vehicleType,
+        availableSeats,
+        availableDays: selectedDays
+      });
+
+      const daysText = response.availableDays.split(',').join(', ');
+      results.innerHTML = `
+        <div class="success-message">
+          <p>✅ Driver information has been registered!</p>
+          <div class="ride-details">
+            <p><strong>Name:</strong> ${response.name}</p>
+            <p><strong>Phone:</strong> ${response.phone}</p>
+            <p><strong>Email:</strong> ${response.email}</p>
+            <p><strong>Home Address:</strong> ${response.address}</p>
+            <p><strong>Vehicle Type:</strong> ${response.vehicleType}</p>
+            <p><strong>Available Seats:</strong> ${response.availableSeats}</p>
+            <p><strong>Available days:</strong> ${daysText}</p>
+          </div>
         </div>
-      </div>
-    `;
+      `;
+      showMessage('Successfully registered!', 'success');
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'Failed to register';
+      results.innerHTML = `<p class="error-message">${errorMessage}</p>`;
+      showMessage(errorMessage, 'error');
+    }
   }
 }
 

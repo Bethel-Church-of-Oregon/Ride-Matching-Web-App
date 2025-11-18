@@ -45,13 +45,16 @@ Before you begin, ensure you have the following installed:
 # Install dependencies
 npm install
 
-# Start development server
+# Install Vercel CLI globally (if not already installed)
+npm install -g vercel
+
+# Start development server with Vercel Dev
 npm run dev
 ```
 
 The app will be available at `http://localhost:3000`
 
-If you plan to use the included Express + Prisma backend (SQLite) for registrations, follow the Backend setup below before using registration features.
+**Note**: This project uses Vercel Serverless Functions for local development and production. The `vercel dev` command runs both the frontend and serverless functions locally.
 
 ## 🛠️ Development
 
@@ -63,82 +66,98 @@ If you plan to use the included Express + Prisma backend (SQLite) for registrati
    cd Ride-Matching-Web-App
    ```
 
-2. **Install dependencies (frontend)**
+2. **Install dependencies**
     ```bash
-    # Install frontend dependencies (run in project root)
+    # Install all project dependencies
     npm install
+
+    # Install Vercel CLI globally
+    npm install -g vercel
     ```
 
-3. **Backend (Express + Prisma + SQLite)**
+3. **Set up Neon PostgreSQL Database**
 
-   Server dependency installation
+   Create a Neon database account at [neon.tech](https://neon.tech) and get your connection string.
+
+   Create a `.env` file in the project root:
    ```bash
-   # Install backend dependencies (run inside server/ if it has its own package.json)
-   cd server
-   npm install
-
-   # Alternatively, run both installs from the project root in one line:
-   # npm install && (cd server && npm install)
+   # Copy the example file
+   cp .env.example .env
    ```
 
-    Prisma initialization and DB creation
-    ```bash
-    # First run: create and apply migration
-    npx prisma migrate dev --name init
-    # Or push schema directly to the DB
-    # npx prisma db push
-    ```
+   Edit `.env` and add your Neon database URL:
+   ```env
+   DATABASE_URL="postgresql://username:password@ep-xxxxx.region.aws.neon.tech/neondb?sslmode=require"
+   ```
 
-    Server start (development mode)
+4. **Run Prisma migrations**
+   ```bash
+   npm run db:generate
+   npm run db:migrate
+   ```
+
+5. **Start development server with Vercel Dev**
     ```bash
     npm run dev
     ```
 
-    The backend listens on port 4000 by default (`http://localhost:4000`).
+    This runs `vercel dev` which:
+    - Starts the Vite frontend on port 3000
+    - Runs serverless functions locally at `/api/*`
+    - Hot reloads on file changes
 
-3. **Start development server**
-    ```bash
-    # In the project root (frontend)
-    npm run dev
-    ```
-
-4. **Open your browser**
+6. **Open your browser**
    - Navigate to `http://localhost:3000`
    - The app will automatically reload when you save changes
 
 ### Development Features
 
+- **Vercel Dev** - Local serverless function simulation
 - **Hot Module Replacement (HMR)** - Changes reflect instantly without page refresh
 - **TypeScript Compilation** - Automatic type checking and compilation
 - **Source Maps** - Easy debugging with original source code mapping
+
+### Alternative: Frontend Only Development
+
+If you only want to work on the frontend without API:
+
+```bash
+npm run dev:frontend
+```
+
+This runs Vite directly on port 3000 without serverless functions.
 
 ## 📁 Project Structure
 
 ```
 Ride-Matching-Web-App/
-├── server/               # Express + Prisma backend 
-│   ├── src/
-│   │   └── index.ts      # Express server entry
-│   ├── prisma/
-│   │   └── schema.prisma # Prisma schema (dev.db is ignored)
-|   └── package.json
+├── api/                  # Vercel Serverless Functions
+│   ├── passengers.ts     # Passenger registration endpoint
+│   └── drivers.ts        # Driver registration endpoint
+├── server/
+│   └── prisma/
+│       ├── schema.prisma # Prisma schema (Neon PostgreSQL)
+│       └── migrations/   # Database migrations
 ├── src/                  # Frontend source (Vite + TypeScript)
 │   ├── main.ts
 │   ├── login.ts
 │   ├── mode-selection.ts
 │   ├── passenger-mode.ts
 │   ├── driver-mode.ts
+│   ├── api.ts            # API client functions
 │   ├── utils.ts
 │   ├── types.ts
 │   └── style.css
-├── public/               # Static assets (service worker, manifest, icons)
+├── public/               # Static assets (PWA)
 │   ├── generate-icons.html
 │   ├── manifest.json
 │   └── sw.js
 ├── index.html            # HTML entry point
-├── package.json          # Frontend dependencies & npm scripts
+├── package.json          # Dependencies & npm scripts
 ├── tsconfig.json         # TypeScript configuration
-├── vite.config.ts        # Vite dev server / build config
+├── vite.config.ts        # Vite configuration
+├── vercel.json           # Vercel deployment config
+├── .env.example          # Environment variables template
 ├── .gitignore            # Git ignore rules
 └── README.md             # Project documentation
 ```
@@ -147,22 +166,35 @@ Ride-Matching-Web-App/
 
 | Command | Description |
 |---------|-------------|
-| `npm run dev` | Start development server with HMR |
-| `npm run build` | Build for production (TypeScript + Vite) |
+| `npm run dev` | Start Vercel Dev (frontend + serverless functions) |
+| `npm run dev:frontend` | Start Vite frontend only (no API) |
+| `npm run build` | Build for production |
 | `npm run preview` | Preview production build locally |
-| `npm run type-check` | Run TypeScript type checking without building |
+| `npm run type-check` | Run TypeScript type checking |
+| `npm run db:migrate` | Deploy Prisma migrations |
+| `npm run db:generate` | Generate Prisma client |
+| `npm run vercel-build` | Vercel build command (auto-runs on deploy) |
 
 ## 🛠️ Technology Stack
 
+### Frontend
 - **TypeScript** (v5.3.3) - Typed JavaScript for better development experience
 - **Vite** (v7.2.1) - Next-generation frontend build tool
-- **Node.js** (v20) - JavaScript runtime
+- **PWA** - Progressive Web App with Service Worker
+
+### Backend
+- **Vercel Serverless Functions** - Scalable serverless API endpoints
+- **Neon PostgreSQL** - Serverless PostgreSQL database
+- **Prisma** (v6.19.0) - Type-safe database ORM
+- **bcrypt** - Password hashing
 
 ### Key Dependencies
 
+- `@vercel/node` - Vercel serverless function types
+- `@prisma/client` - Prisma database client
+- `bcrypt` - Password encryption
 - `typescript` - TypeScript compiler
 - `vite` - Build tool and dev server
-- `@types/node` - TypeScript definitions for Node.js
 
 ## 🔧 Troubleshooting
 
@@ -201,6 +233,55 @@ Ride-Matching-Web-App/
 - Ensure both developers use Node.js v18 or higher
 - Use the same `package-lock.json` file (commit it to git)
 - Consider using `nvm` (Node Version Manager) to manage Node versions
+
+## 🚀 Deployment
+
+### Deploy to Vercel
+
+#### Option 1: GitHub Integration (Recommended)
+
+1. Push your code to GitHub
+2. Go to [Vercel](https://vercel.com) and sign in
+3. Click "New Project" and import your GitHub repository
+4. Configure environment variables:
+   - `DATABASE_URL` - Your Neon PostgreSQL connection string
+5. Click "Deploy"
+
+Vercel will automatically:
+- Run `npm run vercel-build`
+- Generate Prisma client
+- Build the frontend
+- Deploy serverless functions
+
+#### Option 2: Vercel CLI
+
+1. **Install Vercel CLI**
+   ```bash
+   npm install -g vercel
+   ```
+
+2. **Deploy**
+   ```bash
+   vercel
+   ```
+
+3. **Set environment variables**
+   ```bash
+   vercel env add DATABASE_URL
+   ```
+
+4. **Run migrations on production** (first deploy only)
+   ```bash
+   npm run db:migrate
+   ```
+
+### Environment Variables
+
+Required environment variables for production:
+
+| Variable | Description | Example |
+|----------|-------------|---------|
+| `DATABASE_URL` | Neon PostgreSQL connection string | `postgresql://user:pass@ep-xxx.region.aws.neon.tech/db?sslmode=require` |
 
 ## 📄 License
 

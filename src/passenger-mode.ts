@@ -1,4 +1,5 @@
 import { showMessage } from './utils';
+import { registerPassenger } from './api';
 
 export class PassengerMode {
   private onBack: () => void;
@@ -71,7 +72,7 @@ export class PassengerMode {
     registerBtn.addEventListener('click', () => this.registerPassenger());
   }
 
-  private registerPassenger(): void {
+  private async registerPassenger(): Promise<void> {
     const name = (document.querySelector<HTMLInputElement>('#passenger-name')?.value || '').trim();
     const phone = (document.querySelector<HTMLInputElement>('#passenger-phone')?.value || '').trim();
     const email = (document.querySelector<HTMLInputElement>('#passenger-email')?.value || '').trim();
@@ -96,18 +97,36 @@ export class PassengerMode {
     }
 
     const results = document.querySelector<HTMLDivElement>('#rides-results')!;
-    results.innerHTML = `
-      <div class="success-message">
-        <p>✅ Passenger information has been registered!</p>
-        <div class="ride-details">
-          <p><strong>Name:</strong> ${name}</p>
-          <p><strong>Phone:</strong> ${phone}</p>
-          <p><strong>Email:</strong> ${email}</p>
-          <p><strong>Home Address:</strong> ${address}</p>
-          <p><strong>Passengers needed:</strong> ${passengerCount} passengers</p>
+    results.innerHTML = '<p>Registering...</p>';
+
+    try {
+      const response = await registerPassenger({
+        name,
+        phone,
+        email,
+        password,
+        address,
+        passengerCount
+      });
+
+      results.innerHTML = `
+        <div class="success-message">
+          <p>✅ Passenger information has been registered!</p>
+          <div class="ride-details">
+            <p><strong>Name:</strong> ${response.name}</p>
+            <p><strong>Phone:</strong> ${response.phone}</p>
+            <p><strong>Email:</strong> ${response.email}</p>
+            <p><strong>Home Address:</strong> ${response.address}</p>
+            <p><strong>Passengers needed:</strong> ${response.passengerCount} passengers</p>
+          </div>
         </div>
-      </div>
-    `;
+      `;
+      showMessage('Successfully registered!', 'success');
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'Failed to register';
+      results.innerHTML = `<p class="error-message">${errorMessage}</p>`;
+      showMessage(errorMessage, 'error');
+    }
   }
 }
 
