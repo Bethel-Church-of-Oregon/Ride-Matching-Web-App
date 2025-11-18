@@ -48,8 +48,8 @@ Before you begin, ensure you have the following installed:
 # Install dependencies
 npm install
 
-# Install server dependencies
-cd server && npm install && cd ..
+# Install backend dependencies
+cd backend-dev && npm install && cd ..
 
 # Start development servers
 # Terminal 1: Frontend (Vite)
@@ -80,7 +80,7 @@ npm run dev:backend
     npm install
 
     # Install backend dependencies
-    cd server && npm install && cd ..
+    cd backend-dev && npm install && cd ..
     ```
 
 3. **Set up Neon PostgreSQL Database**
@@ -101,7 +101,7 @@ npm run dev:backend
 4. **Initialize database**
    ```bash
    # First time setup - creates database tables
-   cd server && npx dotenv -e ../.env -- prisma migrate dev --name init
+   cd backend-dev && npx dotenv -e ../.env -- prisma migrate dev --name init
 
    # Or use the npm scripts (for subsequent updates)
    npm run db:generate  # Generate Prisma Client
@@ -146,14 +146,14 @@ Ride-Matching-Web-App/
 ├── api/                  # Vercel Serverless Functions (Production)
 │   ├── passengers.ts     # Passenger registration endpoint
 │   └── drivers.ts        # Driver registration endpoint
-├── server/               # Express Backend (Development)
+├── backend-dev/          # Express Backend (Development)
 │   ├── src/
 │   │   └── index.ts      # Express server entry point
 │   ├── prisma/
 │   │   ├── schema.prisma # Prisma schema (Neon PostgreSQL)
 │   │   └── migrations/   # Database migrations
-│   ├── package.json      # Server dependencies
-│   └── tsconfig.json     # Server TypeScript config
+│   ├── package.json      # Backend dependencies
+│   └── tsconfig.json     # Backend TypeScript config
 ├── src/                  # Frontend source (Vite + TypeScript)
 │   ├── main.ts
 │   ├── login.ts
@@ -267,7 +267,7 @@ Ride-Matching-Web-App/
 **Problem**: `Environment variable not found: DATABASE_URL` when running Prisma commands
 
 **Solution**:
-- Ensure `.env` file exists in the project root (not in `server/` directory)
+- Ensure `.env` file exists in the project root (not in `backend-dev/` directory)
 - Copy `.env.example` to `.env`: `cp .env.example .env`
 - Add your actual Neon database connection string to `.env`
 - The `dotenv-cli` package (automatically installed with `npm install`) loads environment variables for Prisma

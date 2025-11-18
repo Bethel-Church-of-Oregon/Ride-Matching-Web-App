@@ -5,13 +5,13 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "dev:backend": "cd server && npm run dev",
-    "build": "cd server && npx prisma generate && cd .. && tsc && vite build",
+    "dev:backend": "cd backend-dev && npm run dev",
+    "build": "cd backend-dev && npx prisma generate && cd .. && tsc && vite build",
     "preview": "vite preview",
     "type-check": "tsc --noEmit",
-    "db:migrate": "cd server && npx dotenv -e ../.env -- prisma migrate deploy",
-    "db:generate": "cd server && npx dotenv -e ../.env -- prisma generate",
-    "vercel-build": "cd server && npx prisma generate && cd .. && npm run build"
+    "db:migrate": "cd backend-dev && npx dotenv -e ../.env -- prisma migrate deploy",
+    "db:generate": "cd backend-dev && npx dotenv -e ../.env -- prisma generate",
+    "vercel-build": "cd backend-dev && npx prisma generate && cd .. && npm run build"
   },
   "keywords": [],
   "author": "",

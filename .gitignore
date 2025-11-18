@@ -18,8 +18,8 @@ dist/
 ### Environment / secrets
 .env
 .env.*.local
-server/.env
-server/*.env
+backend-dev/.env
+backend-dev/*.env
 
 ### OS / Editor
 .DS_Store
@@ -38,12 +38,12 @@ coverage/
 
 ### Prisma / DB
 # Ignore local SQLite dev DB (don't ignore migrations folder)
-server/prisma/dev.db
-server/prisma/*.db
+backend-dev/prisma/dev.db
+backend-dev/prisma/*.db
 
-### Server build / deps
-server/node_modules/
-server/dist/
+### Backend build / deps
+backend-dev/node_modules/
+backend-dev/dist/
 
 ### Misc
 *.tgz
