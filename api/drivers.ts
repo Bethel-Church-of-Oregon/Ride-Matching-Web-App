@@ -1,5 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { registerDriver } from '../src/handlers/drivers';
+import { registerDriver } from './handlers/drivers.js';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   // Enable CORS
