@@ -45,11 +45,8 @@ Before you begin, ensure you have the following installed:
 ## 🚀 Quick Start
 
 ```bash
-# Install dependencies
+# Install all dependencies (frontend + backend)
 npm install
-
-# Install backend dependencies
-cd backend-dev && npm install && cd ..
 
 # Start development servers
 # Terminal 1: Frontend (Vite)
@@ -62,7 +59,10 @@ npm run dev:backend
 - **Frontend**: `http://localhost:3000`
 - **Backend**: `http://localhost:4000`
 
-**Note**: This project uses **Express** for local development (fast & simple) and **Vercel Serverless Functions** for production (scalable & serverless).
+**Note**:
+- This project uses **npm workspaces** - one `npm install` installs everything!
+- **Express** for local development (fast & simple)
+- **Vercel Serverless Functions** for production (scalable & serverless)
 
 ## 🛠️ Development
 
@@ -76,11 +76,8 @@ npm run dev:backend
 
 2. **Install dependencies**
     ```bash
-    # Install frontend dependencies
+    # Install all dependencies (npm workspaces handles both frontend & backend)
     npm install
-
-    # Install backend dependencies
-    cd backend-dev && npm install && cd ..
     ```
 
 3. **Set up Neon PostgreSQL Database**
@@ -205,6 +202,9 @@ Ride-Matching-Web-App/
 - **ORM**: Prisma (v6.19.0) - Type-safe database access
 - **Security**: bcrypt - Password hashing
 
+### Project Management
+- **npm workspaces** - Monorepo structure with unified dependency management
+
 ### Key Dependencies
 
 **Frontend:**
@@ -215,7 +215,7 @@ Ride-Matching-Web-App/
 - `express` - Web framework
 - `cors` - Cross-origin resource sharing
 - `tsx` - TypeScript execution with hot reload
-- `dotenv-cli` - Environment variable management for Prisma
+- `dotenv` / `dotenv-cli` - Environment variable management
 
 **Backend (Prod):**
 - `@vercel/node` - Vercel serverless function types

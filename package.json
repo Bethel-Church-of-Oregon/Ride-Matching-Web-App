@@ -3,15 +3,18 @@
   "version": "1.0.0",
   "description": "A TypeScript web application for ride matching",
   "type": "module",
+  "workspaces": [
+    "backend-dev"
+  ],
   "scripts": {
     "dev": "vite",
-    "dev:backend": "cd backend-dev && npm run dev",
-    "build": "cd backend-dev && npx prisma generate && cd .. && tsc && vite build",
+    "dev:backend": "npm run dev --workspace=backend-dev",
+    "build": "npm run build --workspace=backend-dev && tsc && vite build",
     "preview": "vite preview",
     "type-check": "tsc --noEmit",
-    "db:migrate": "cd backend-dev && npx dotenv -e ../.env -- prisma migrate deploy",
-    "db:generate": "cd backend-dev && npx dotenv -e ../.env -- prisma generate",
-    "vercel-build": "cd backend-dev && npx prisma generate && cd .. && npm run build"
+    "db:migrate": "npm run db:migrate --workspace=backend-dev",
+    "db:generate": "npm run db:generate --workspace=backend-dev",
+    "vercel-build": "npm run build --workspace=backend-dev && npm run build"
   },
   "keywords": [],
   "author": "",
