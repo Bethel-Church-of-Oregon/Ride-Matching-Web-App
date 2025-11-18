@@ -2,6 +2,11 @@ import express from 'express';
 import cors from 'cors';
 import { PrismaClient } from '@prisma/client';
 import bcrypt from 'bcrypt';
+import * as dotenv from 'dotenv';
+import { resolve } from 'path';
+
+// Load environment variables from root .env file
+dotenv.config({ path: resolve(__dirname, '../../.env') });
 
 const prisma = new PrismaClient();
 const app = express();

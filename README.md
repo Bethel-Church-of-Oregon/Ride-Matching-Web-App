@@ -98,11 +98,17 @@ npm run dev:backend
    DATABASE_URL="postgresql://username:password@ep-xxxxx.region.aws.neon.tech/neondb?sslmode=require"
    ```
 
-4. **Run Prisma migrations**
+4. **Initialize database**
    ```bash
-   npm run db:generate
-   npm run db:migrate
+   # First time setup - creates database tables
+   cd server && npx dotenv -e ../.env -- prisma migrate dev --name init
+
+   # Or use the npm scripts (for subsequent updates)
+   npm run db:generate  # Generate Prisma Client
+   npm run db:migrate   # Apply migrations (production mode)
    ```
+
+   **Note**: For first-time setup, use `prisma migrate dev` which creates and applies migrations. The npm scripts are optimized for production deployments.
 
 5. **Start development servers**
 
@@ -209,6 +215,7 @@ Ride-Matching-Web-App/
 - `express` - Web framework
 - `cors` - Cross-origin resource sharing
 - `tsx` - TypeScript execution with hot reload
+- `dotenv-cli` - Environment variable management for Prisma
 
 **Backend (Prod):**
 - `@vercel/node` - Vercel serverless function types
@@ -254,6 +261,24 @@ Ride-Matching-Web-App/
 - Ensure both developers use Node.js v18 or higher
 - Use the same `package-lock.json` file (commit it to git)
 - Consider using `nvm` (Node Version Manager) to manage Node versions
+
+### Database Connection Error
+
+**Problem**: `Environment variable not found: DATABASE_URL` when running Prisma commands
+
+**Solution**:
+- Ensure `.env` file exists in the project root (not in `server/` directory)
+- Copy `.env.example` to `.env`: `cp .env.example .env`
+- Add your actual Neon database connection string to `.env`
+- The `dotenv-cli` package (automatically installed with `npm install`) loads environment variables for Prisma
+
+**Problem**: `Can't reach database server` error
+
+**Solution**:
+- Verify your DATABASE_URL in `.env` is correct
+- Check that your Neon database is active (it may auto-suspend after inactivity)
+- Ensure the connection string includes `?sslmode=require` at the end
+- Test connection at [neon.tech](https://neon.tech) dashboard
 
 ## 🚀 Deployment
 

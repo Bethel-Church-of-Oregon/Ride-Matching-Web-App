@@ -9,8 +9,8 @@
     "build": "cd server && npx prisma generate && cd .. && tsc && vite build",
     "preview": "vite preview",
     "type-check": "tsc --noEmit",
-    "db:migrate": "cd server && npx prisma migrate deploy",
-    "db:generate": "cd server && npx prisma generate",
+    "db:migrate": "cd server && npx dotenv -e ../.env -- prisma migrate deploy",
+    "db:generate": "cd server && npx dotenv -e ../.env -- prisma generate",
     "vercel-build": "cd server && npx prisma generate && cd .. && npm run build"
   },
   "keywords": [],
@@ -20,6 +20,7 @@
     "@types/bcrypt": "^5.0.2",
     "@types/node": "^20.10.0",
     "@vercel/node": "^3.0.0",
+    "dotenv-cli": "^11.0.0",
     "prisma": "^6.19.0",
     "typescript": "^5.3.3",
     "vite": "^7.2.1"
